@@ -3,6 +3,29 @@
   <head>
     <title>SVG CSS Test</title>
     <style>
+      /* These styles are not part of the issue */
+      .magnifier {
+        width: 20px;
+        height: 20px;
+      }
+      code {
+        padding: 1px 4px;
+        background: lightgrey;
+        border: 1px solid grey;
+        border-radius: 4px;
+      }
+
+      /* These styles apply just fine in both cases */
+      .icon-large {
+        fill: orange;
+      }
+      .icon-medium {
+        fill: green;
+      }
+      path {
+        fill-opacity: 0.75;
+      }
+
       /* These styles do not apply with <use> */
       .ui-large .icon-medium {
         display: none;
@@ -19,33 +42,36 @@
         display: inline;
       }
 
-      .ui-medium .magnifier {
-        width: 16px;
-        height: 16px;
-      }
-      .ui-large .magnifier {
-        width: 20px;
-        height: 20px;
-      }
-
-      /* These styles apply just fine in both cases */
-      .icon-large {
-        fill: pink;
-      }
-
-      .icon-medium {
-        fill: green;
+      /* These styles do not apply with <use> */
+      html path {
+        stroke: grey;
+        stroke-opacity: 0.5;
       }
     </style>
-    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;"><symbol id="Magnifier"><path d="M15.77 14.709l-4.534-4.534a6.013 6.013 0 1 0-1.061 1.061l4.534 4.534a.75.75 0 1 0 1.061-1.061zM6.5 11A4.5 4.5 0 1 1 11 6.5 4.505 4.505 0 0 1 6.5 11z" class="icon-medium"/><path d="M19.77 18.709l-5.464-5.463a7.5 7.5 0 1 0-1.06 1.06l5.463 5.464a.75.75 0 1 0 1.061-1.061zM2.5 8.5a6 6 0 1 1 6 6 6.007 6.007 0 0 1-6-6z" class="icon-large"/></symbol></svg>
   </head>
   <body>
-      <h2>With &lt;use&gt;</h2>
+      <!-- An SVG with a set of icons, injected into the body, intended to be included with <use> -->
+      <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+        <symbol id="Magnifier">
+          <path d="M15.77 14.709l-4.534-4.534a6.013 6.013 0 1 0-1.061 1.061l4.534 4.534a.75.75 0 1 0 1.061-1.061zM6.5 11A4.5 4.5 0 1 1 11 6.5 4.505 4.505 0 0 1 6.5 11z" class="icon-medium"/>
+          <path d="M19.77 18.709l-5.464-5.463a7.5 7.5 0 1 0-1.06 1.06l5.463 5.464a.75.75 0 1 0 1.061-1.061zM2.5 8.5a6 6 0 1 1 6 6 6.007 6.007 0 0 1-6-6z" class="icon-large"/>
+        </symbol>
+      </svg>
+
+      <h1>Firefox SVG path CSS selector issue</h1>
+      <p>When targeting a <code>&lt;path&gt;</code> element inside of an <code>&lt;svg&gt;</code> with a selector such as <code>html path { ... }</code>, Firefox fails to apply styles.</p>
+      <p>However, these styles are displayed in the web inspector, and applying styles directly to the <code>&lt;path&gt;</code> using the <code>style</code> attribute works.</p>
+
+      <h2>With <code>&lt;use&gt;</code></h2>
       <svg focusable="false" aria-hidden="true" class="magnifier">
         <use xlink:href="#Magnifier"></use>
       </svg>
 
       <h2>Embedded</h2>
-      <svg class="magnifier" xmlns="http://www.w3.org/2000/svg"><path d="M15.77 14.709l-4.534-4.534a6.013 6.013 0 1 0-1.061 1.061l4.534 4.534a.75.75 0 1 0 1.061-1.061zM6.5 11A4.5 4.5 0 1 1 11 6.5 4.505 4.505 0 0 1 6.5 11z" class="icon-medium"/><path d="M19.77 18.709l-5.464-5.463a7.5 7.5 0 1 0-1.06 1.06l5.463 5.464a.75.75 0 1 0 1.061-1.061zM2.5 8.5a6 6 0 1 1 6 6 6.007 6.007 0 0 1-6-6z" class="icon-large"/></svg>
+      <!-- The same SVG, without <symbol> and embedded directly where it is intended to be used -->
+      <svg class="magnifier" xmlns="http://www.w3.org/2000/svg">
+        <path d="M15.77 14.709l-4.534-4.534a6.013 6.013 0 1 0-1.061 1.061l4.534 4.534a.75.75 0 1 0 1.061-1.061zM6.5 11A4.5 4.5 0 1 1 11 6.5 4.505 4.505 0 0 1 6.5 11z" class="icon-medium"/>
+        <path d="M19.77 18.709l-5.464-5.463a7.5 7.5 0 1 0-1.06 1.06l5.463 5.464a.75.75 0 1 0 1.061-1.061zM2.5 8.5a6 6 0 1 1 6 6 6.007 6.007 0 0 1-6-6z" class="icon-large"/>
+      </svg>
   </body>
 </html>
