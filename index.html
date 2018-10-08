@@ -58,9 +58,11 @@
         </symbol>
       </svg>
 
-      <h1>Firefox SVG path CSS selector issue</h1>
-      <p>When targeting a <code>&lt;path&gt;</code> element inside of an <code>&lt;svg&gt;</code> with a selector such as <code>html path { ... }</code>, Firefox fails to apply styles.</p>
-      <p>However, these styles are displayed in the web inspector, and applying styles directly to the <code>&lt;path&gt;</code> using the <code>style</code> attribute works.</p>
+      <h1>CSS descendent selector does not apply styles to SVGs included with <code>&lt;use&gt;</code> </h1>
+      <p>For SVGs included with <code>&lt;use&gt;</code>, the descendent selector <code>html path { ... }</code> does not apply styles, despite matching the element.</p>
+      <p>However, if the selector is simply <code>path { ... }</code> or <code>.classname { ... }</code>, the styles are correctly applied.</p>
+      <p>Curiously, the styles are displayed in the web inspector, despite the fact that they are not applied.</p>
+      <p>Either selector works fine for embedded SVGs</p>
 
       <h2>With <code>&lt;use&gt;</code></h2>
       <svg focusable="false" aria-hidden="true" class="magnifier">
