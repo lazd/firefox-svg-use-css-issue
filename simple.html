@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CSS use desdendent selector test</title>
+
+  <style>
+    html rect {
+      fill: green;
+    }
+  </style>
+</head>
+<body>
+
+  <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+    <symbol id="rect">
+      <rect width="15" height="15" fill="orange"/>
+    </symbol>
+  </svg>
+
+  <svg focusable="false" aria-hidden="true" class="magnifier">
+    <use xlink:href="#rect"></use>
+  </svg>
+
+</body>
+</html>
